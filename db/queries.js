@@ -7,6 +7,14 @@ async function addUserData(usernames, first_name, last_name, password) {
   );
 }
 
+async function changeMembershipStatus(username) {
+  await pool.query(
+    "UPDATE users SET membership_status = true WHERE usernames = $1",
+    [username]
+  );
+}
+
 module.exports = {
   addUserData,
+  changeMembershipStatus,
 };

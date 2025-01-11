@@ -6,7 +6,8 @@ const SQL = `CREATE TABLE IF NOT EXISTS users(
  usernames VARCHAR(50),
  first_name VARCHAR(20),
  last_name VARCHAR(20),
- password VARCHAR(255)
+ password VARCHAR(255),
+ membership_status BOOLEAN DEFAULT false
 );
 
 CREATE TABLE IF NOT EXISTS messages(

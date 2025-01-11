@@ -30,7 +30,7 @@ const validateSignup = [
     .isLength({ min: 6 })
     .withMessage("Password must be at least 6 characters long")
     .escape(),
-  check("confirmPassword")
+  check("confirm_pass")
     .notEmpty()
     .withMessage("Confirm password is required")
     .custom((value, { req }) => {
@@ -38,6 +38,18 @@ const validateSignup = [
         throw new Error("Passwords do not match");
       }
       return true; // Indicates the validation was successful
+    }),
+];
+
+const validateSecret = [
+  check("club-pass")
+    .notEmpty()
+    .withMessage("Please Enter the secret password")
+    .custom((value, { req }) => {
+      if (value !== "coolboy111") {
+        throw new Error("This is not the secret password");
+      }
+      return true;
     }),
 ];
 
@@ -66,8 +78,32 @@ async function addUserData(req, res, next) {
   }
 }
 
+async function renderSecret(req, res) {
+  res.render("joinclub");
+}
+
+async function changeMembershipStatus(req, res, next) {
+  const validationErr = validationResult(req);
+  if (!validationErr.isEmpty) {
+    res.status(400).json({ validationErr: validationErr.array() });
+  }
+  console.log(req.body.username);
+
+  try {
+    // you need to add querie that updates the user if they enter the secret
+    console.log(req.body.username);
+    await db.changeMembershipStatus(req.body.username);
+    res.send("check membership status in db");
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getForm,
   addUserData,
   validateSignup,
+  validateSecret,
+  renderSecret,
+  changeMembershipStatus,
 };
