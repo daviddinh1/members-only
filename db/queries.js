@@ -14,7 +14,15 @@ async function changeMembershipStatus(username) {
   );
 }
 
+async function addMessageData(user_id, title, message) {
+  await pool.query(
+    "INSERT INTO messages (user_id,title,message) VALUES ($1,$2,$3)",
+    [user_id, title, message]
+  );
+}
+
 module.exports = {
   addUserData,
   changeMembershipStatus,
+  addMessageData,
 };

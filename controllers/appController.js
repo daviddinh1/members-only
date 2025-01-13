@@ -99,6 +99,22 @@ async function changeMembershipStatus(req, res, next) {
   }
 }
 
+async function renderMessage(req, res) {
+  console.log("does it show the user object:", req.user);
+  res.render("message", { user: req.user });
+}
+
+async function showMessages(req, res, next) {
+  const { title, message } = req.body;
+  const userId = req.user.id;
+  try {
+    await db.addMessageData(userId, title, message);
+    res.send("request went through check messages table for data");
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   getForm,
   addUserData,
@@ -106,4 +122,6 @@ module.exports = {
   validateSecret,
   renderSecret,
   changeMembershipStatus,
+  renderMessage,
+  showMessages,
 };

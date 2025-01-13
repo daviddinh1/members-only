@@ -12,4 +12,7 @@ appRouter.post(
   controller.changeMembershipStatus
 );
 
+appRouter.get("/message", controller.renderMessage);
+appRouter.post("/message", controller.showMessages);
+
 module.exports = appRouter;
