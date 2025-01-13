@@ -3,11 +3,11 @@ const bcrypt = require("bcryptjs");
 const { check, body, validationResult } = require("express-validator");
 
 const validateSignup = [
-  check("usernames")
+  check("username")
     .trim()
     .notEmpty()
     .withMessage("Username is required")
-    .isLength({ min: 3, max: 20 })
+    .isLength({ min: 3, max: 50 })
     .withMessage("Username must be between 3 and 20 characters")
     .escape(),
   check("first_name")
@@ -62,14 +62,14 @@ async function addUserData(req, res, next) {
   if (!validationErr.isEmpty()) {
     return res.status(400).json({ validationErr: validationErr.array() });
   }
-  const { usernames, first_name, last_name, password } = req.body;
+  const { username, first_name, last_name, password } = req.body;
 
   try {
     // Use bcrypt.hash with async/await for better readability
     const hashPass = await bcrypt.hash(password, 10);
 
     // Insert user data into the database
-    await db.addUserData(usernames, first_name, last_name, hashPass);
+    await db.addUserData(username, first_name, last_name, hashPass);
 
     res.send("Sign up went through check db");
   } catch (err) {
