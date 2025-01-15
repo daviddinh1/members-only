@@ -21,7 +21,7 @@
         </p>
       </div>
       <form action="/delete" method="POST">
-        <input type="hidden" name="message_id" value="<%= i %>">
+        <input type="hidden" name="message_id" value="<%= messages[i].msg_id %>">
         <button type="submit">Delete</button>
       </form>
       <% } %>

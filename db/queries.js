@@ -32,12 +32,12 @@ async function showMessages(membershipStatus) {
   let messagesArr;
   if (membershipStatus === true) {
     const rows = await pool.query(
-      "SELECT first_name, last_name, message,timestamp_val FROM users JOIN messages ON messages.user_id = users.id"
+      "SELECT first_name, last_name, message,timestamp_val, messages.id AS msg_id FROM users JOIN messages ON messages.user_id = users.id"
     );
     messagesArr = rows.rows;
   } else {
     const rows = await pool.query(
-      "SELECT first_name, last_name, timestamp_val FROM users JOIN messages ON messages.user_id = users.id"
+      "SELECT first_name, last_name, timestamp_val,messages.id FROM users JOIN messages ON messages.user_id = users.id"
     );
     messagesArr = rows.rows;
   }
